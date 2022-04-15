@@ -15,8 +15,8 @@ const App = () => {
 		axios
 			.get(`https://api.twitch.tv/helix/search/channels?query=${name}`, {
 				headers: {
-					"Client-ID": "op6mdc0dthao21xo00xov05djqn60e",
-					Authorization: "Bearer yq7nhcnu8iv4b52h9nwbdhdnxtxlwt",
+					"Client-ID": `${secrets.CREDIT_ID}`,
+					Authorization: `${secrets.AUTH}`,
 				},
 			})
 			.then((response) => {
