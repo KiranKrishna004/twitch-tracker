@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+/** @format */
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import "./App.css";
+import axios from "axios";
+import { useEffect } from "react";
+import Input from "./components/Input";
+import { useDispatch, useSelector } from "react-redux";
+import Display from "./components/Display";
+import Header from "./components/Header";
+const App = () => {
+	const name = useSelector(({ name }) => name.name);
+	const channel = useSelector((state) => state.channel.channel);
+	const dispatch = useDispatch();
+	useEffect(() => {
+		axios
+			.get(`https://api.twitch.tv/helix/search/channels?query=${name}`, {
+				headers: {
+					"Client-ID": "op6mdc0dthao21xo00xov05djqn60e",
+					Authorization: "Bearer yq7nhcnu8iv4b52h9nwbdhdnxtxlwt",
+				},
+			})
+			.then((response) => {
+				dispatch({ type: "GETC", payload: response.data });
+			})
+			.catch((e) => console.log(e.response.status));
+	}, [name]);
+	return (
+		<>
+			{channel.length === 0 ? (
+				<></>
+			) : (
+				<div className='bg-gray-900'>
+					<Header />
+					<Input />
+					<Display />
+				</div>
+			)}
+		</>
+	);
+};
 
 export default App;
