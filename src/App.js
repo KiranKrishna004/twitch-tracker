@@ -11,12 +11,14 @@ const App = () => {
 	const name = useSelector(({ name }) => name.name);
 	const channel = useSelector((state) => state.channel.channel);
 	const dispatch = useDispatch();
+	const CLIENT_ID= process.env.CLIENT_ID;
+	const AUTH= process.env.AUTH;
 	useEffect(() => {
 		axios
 			.get(`https://api.twitch.tv/helix/search/channels?query=${name}`, {
 				headers: {
-					"Client-ID": `${secrets.CREDIT_ID}`,
-					Authorization: `${secrets.AUTH}`,
+					"Client-ID": CLIENT_ID,
+					Authorization: AUTH,
 				},
 			})
 			.then((response) => {
